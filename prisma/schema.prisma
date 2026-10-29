@@ -1,0 +1,132 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum AuditStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum TriggerType {
+  MANUAL
+  CRON
+}
+
+enum PriorityLevel {
+  CRITICAL
+  HIGH
+  MEDIUM
+  LOW
+}
+
+enum IssueType {
+  CRITICAL
+  IMPORTANT
+  QUICK_WIN
+}
+
+enum RecommendationCategory {
+  Technical
+  OnPage
+  Content
+  Schema
+  CWV
+}
+
+model Client {
+  id           String   @id @default(cuid())
+  name         String
+  domain       String   @unique
+  businessType String   // e.g., "Dental Clinic", "Healthcare", "Real Estate"
+  city         String   // e.g., "Pune"
+  state        String   // e.g., "Maharashtra"
+  phone        String?  // WhatsApp phone number
+  email        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  audits       Audit[]
+
+  @@index([domain])
+}
+
+model Audit {
+  id               String            @id @default(cuid())
+  clientId         String
+  client           Client            @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  url              String
+  status           AuditStatus       @default(QUEUED)
+  progress         Int               @default(0) // 0 to 100%
+  currentStep      String?           // e.g., "Step 1: Fetch + Cheerio"
+  auditVersion     String            @default("v1.0")
+  overallScore     Int?              // 0-100
+  scoreBreakdown   Json?             // { technical, on_page, content, core_web_vitals, schema }
+  executiveSummary String?           @db.Text
+  rawSignals       Json?             // Aggregated crawler data
+  aiResponse       Json?             // Full raw structured response from Claude
+  pdfPath          String?           // Path in /tmp/reports/ or URL
+  triggerType      TriggerType       @default(MANUAL)
+  error            String?           @db.Text
+  startedAt        DateTime?
+  completedAt      DateTime?
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  recommendations  Recommendation[]
+  issues           Issue[]
+  notifications    NotificationLog[]
+
+  @@index([clientId])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Recommendation {
+  id                   String                 @id @default(cuid())
+  auditId              String
+  audit                Audit                  @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  priority             PriorityLevel
+  category             RecommendationCategory
+  finding              String                 @db.Text
+  fix                  String                 @db.Text
+  estimatedImpact      String                 // High | Medium | Low
+  effort               String                 // Hours | Days | Weeks
+  falsifiabilityCheck  String                 @db.Text
+  createdAt            DateTime               @default(now())
+
+  @@index([auditId])
+  @@index([priority])
+}
+
+model Issue {
+  id          String    @id @default(cuid())
+  auditId     String
+  audit       Audit     @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  issueType   IssueType
+  title       String    @db.Text
+  description String?   @db.Text
+  createdAt   DateTime  @default(now())
+
+  @@index([auditId])
+  @@index([issueType])
+}
+
+model NotificationLog {
+  id          String   @id @default(cuid())
+  auditId     String
+  audit       Audit    @relation(fields: [auditId], references: [id], onDelete: Cascade)
+  channel     String   // WHATSAPP, EMAIL
+  recipient   String
+  status      String   // SENT, MOCK_SENT, FAILED
+  externalSid String?
+  payload     Json?
+  createdAt   DateTime @default(now())
+
+  @@index([auditId])
+}
