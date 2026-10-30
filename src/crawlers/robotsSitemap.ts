@@ -20,8 +20,8 @@ export async function checkRobotsAndSitemap(targetUrl: string): Promise<Technica
   const robotsUrl = `${urlObj.origin}/robots.txt`;
   const sitemapUrl = `${urlObj.origin}/sitemap.xml`;
 
-  let robotsResult = { exists: false, url: robotsUrl, hasSitemapDirective: false, disallowsAll: false };
-  let sitemapResult = { exists: false, url: sitemapUrl, urlCountEstimate: 0 };
+  const robotsResult = { exists: false, url: robotsUrl, hasSitemapDirective: false, disallowsAll: false };
+  const sitemapResult = { exists: false, url: sitemapUrl, urlCountEstimate: 0 };
 
   // 1. Check robots.txt
   try {
