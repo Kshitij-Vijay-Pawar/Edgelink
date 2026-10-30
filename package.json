@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build --webpack",
+    "build": "prisma generate && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "db:push": "npx prisma db push",
@@ -19,6 +19,7 @@
     "cheerio": "^1.2.0",
     "dotenv": "^18.0.9",
     "ioredis": "^6.0.0",
+    "lucide-react": "^1.64.0",
     "next": "16.4.3",
     "puppeteer": "^25.16.0",
     "react": "19.3.0",
