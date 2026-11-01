@@ -36,6 +36,49 @@ async function main() {
     },
   });
 
+  // 2b. Additional Healthcare, Dental & Real Estate Indian Local Business Clients
+  await prisma.client.upsert({
+    where: { domain: 'https://sahyadri-healthcare-pune.in' },
+    update: {},
+    create: {
+      name: 'Sahyadri Multispeciality Healthcare Clinic',
+      domain: 'https://sahyadri-healthcare-pune.in',
+      businessType: 'Healthcare Clinic',
+      city: 'Pune',
+      state: 'Maharashtra',
+      phone: '+919876511122',
+      email: 'care@sahyadri-healthcare-pune.in',
+    },
+  });
+
+  await prisma.client.upsert({
+    where: { domain: 'https://mumbai-apex-dental.com' },
+    update: {},
+    create: {
+      name: 'Mumbai Apex Dental & Orthodontics',
+      domain: 'https://mumbai-apex-dental.com',
+      businessType: 'Dental Clinic',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      phone: '+919820012345',
+      email: 'hello@mumbai-apex-dental.com',
+    },
+  });
+
+  await prisma.client.upsert({
+    where: { domain: 'https://bangalore-skyline-realty.in' },
+    update: {},
+    create: {
+      name: 'Bangalore Skyline Builders & Developers',
+      domain: 'https://bangalore-skyline-realty.in',
+      businessType: 'Real Estate',
+      city: 'Bengaluru',
+      state: 'Karnataka',
+      phone: '+919845098765',
+      email: 'sales@bangalore-skyline-realty.in',
+    },
+  });
+
   // 3. Create a completed baseline audit for the dental clinic
   const baselineAudit = await prisma.audit.create({
     data: {

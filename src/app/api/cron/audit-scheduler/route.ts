@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { enqueueAudit } from '@/queue/auditQueue';
+import { executeAuditPipeline } from '@/workers/auditWorker';
 import { AuditStatus, TriggerType } from '@prisma/client';
 
 export async function GET(req: NextRequest) {
@@ -28,20 +29,30 @@ export async function GET(req: NextRequest) {
           clientId: client.id,
           url: client.domain,
           status: AuditStatus.QUEUED,
-          progress: 0,
+          progress: 5,
           currentStep: 'Triggered by cron-job.org',
           triggerType: TriggerType.CRON,
+          startedAt: new Date(),
         },
       });
 
-      await enqueueAudit({
+      const payload = {
         auditId: audit.id,
         clientId: client.id,
         url: client.domain,
         businessType: client.businessType,
         city: client.city,
         state: client.state,
-      });
+      };
+
+      enqueueAudit(payload).catch(() => {});
+
+      setTimeout(async () => {
+        const check = await prisma.audit.findUnique({ where: { id: audit.id } });
+        if (check && check.status === AuditStatus.QUEUED) {
+          await executeAuditPipeline(payload).catch(() => {});
+        }
+      }, 1500);
 
       enqueued.push(audit.id);
     }

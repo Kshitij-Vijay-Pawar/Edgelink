@@ -1,6 +1,6 @@
 # 🚀 Edgelink Autonomous SEO Auditing Engine & Client Dashboard
 
-An enterprise-grade, autonomous SEO auditing pipeline and client portal built for **Edgelink Technology**. Designed to automate multi-source signal harvesting, AI-powered audits via Claude 3.5 Sonnet, real-time BullMQ background queue processing, automated executive PDF generation, and client delivery notifications.
+An enterprise-grade, autonomous SEO auditing pipeline and client portal built for **Edgelink Technology**. Designed to automate multi-source signal harvesting, AI-powered audits via Claude Sonnet 4.6 (`claude-sonnet-4-6`), real-time BullMQ background queue processing, automated executive PDF generation, and client delivery notifications.
 
 ---
 
@@ -56,7 +56,7 @@ The platform is designed with an asynchronous worker-queue architecture capable 
 - **UI & Styling**: Tailwind CSS, Lucide Icons, Modern responsive card & metric layout
 - **Database**: PostgreSQL (Neon Serverless / Supabase) with **Prisma ORM**
 - **Queue & Async Processing**: **BullMQ** with **Upstash Redis** / Redis
-- **AI Engine**: **Anthropic Claude 3.5 Sonnet** (`claude-3-5-sonnet-20241022`)
+- **AI Engine**: **Anthropic Claude API** (`claude-sonnet-4-6`)
 - **PDF Generation**: **Puppeteer** (Headless Chrome)
 - **Scheduling**: cron-job.org endpoint (`/api/cron/audit-scheduler`) with Bearer token authentication
 
@@ -136,7 +136,7 @@ REDIS_URL="redis://127.0.0.1:6379"
 
 # Anthropic Claude API
 ANTHROPIC_API_KEY="sk-ant-..."
-CLAUDE_MODEL="claude-3-5-sonnet-20241022"
+CLAUDE_MODEL="claude-sonnet-4-6"
 
 # Cron secret
 CRON_SECRET="edgelink-secret-cron-token-2026"

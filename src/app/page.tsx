@@ -40,7 +40,7 @@ export default function Home() {
         </h1>
 
         <p className="text-slate-400 text-lg max-w-2xl mb-10">
-          Harvest multi-source signals across 7 crawlers, execute deep LLM audits with Claude 3.5 Sonnet, stream real-time progress via BullMQ, and dispatch executive PDF reports.
+          Harvest multi-source signals across 7 crawlers, execute deep LLM audits with Claude Sonnet 4.6, stream real-time progress via BullMQ, and dispatch executive PDF reports.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
@@ -84,7 +84,7 @@ export default function Home() {
             <div className="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center mb-4">
               <ShieldCheck size={20} />
             </div>
-            <h3 className="font-semibold text-white mb-1">Claude 3.5 Sonnet</h3>
+            <h3 className="font-semibold text-white mb-1">Claude Sonnet 4.6</h3>
             <p className="text-sm text-slate-400">
               Evaluates structured technical SEO health with actionable prioritized remediation guides.
             </p>
