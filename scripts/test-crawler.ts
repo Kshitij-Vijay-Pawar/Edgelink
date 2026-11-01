@@ -1,4 +1,5 @@
 // scripts/test-crawler.ts
+import 'dotenv/config';
 import { runSignalPipeline } from '../src/crawlers/crawlerPipeline';
 
 async function test() {

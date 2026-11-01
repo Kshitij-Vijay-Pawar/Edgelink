@@ -1,5 +1,4 @@
 // src/crawlers/cheerioCrawler.ts
-import axios from 'axios';
 import * as cheerio from 'cheerio';
 
 export interface CrawlResult {
@@ -22,17 +21,26 @@ export interface CrawlResult {
 }
 
 export async function crawlUrl(targetUrl: string): Promise<CrawlResult> {
-  const response = await axios.get(targetUrl, {
-    headers: {
-      'User-Agent':
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 EdgelinkBot/1.0',
-      Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-    },
-    timeout: 12000,
-    maxRedirects: 5,
-  });
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 12000);
 
-  const html = response.data;
+  let response: Response;
+  let html: string;
+  try {
+    response = await fetch(targetUrl, {
+      headers: {
+        'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 EdgelinkBot/1.0',
+        Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+      },
+      redirect: 'follow',
+      signal: controller.signal,
+    });
+    html = await response.text();
+  } finally {
+    clearTimeout(timeout);
+  }
+
   const $ = cheerio.load(html);
 
   // Extract titles and meta
