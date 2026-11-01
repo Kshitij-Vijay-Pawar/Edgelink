@@ -18,10 +18,23 @@ export async function GET(
       return NextResponse.json({ error: 'Audit not found' }, { status: 404 });
     }
 
+    const forceRegenerate = req.nextUrl.searchParams.get('regenerate') === 'true';
     let pdfPath = audit.pdfPath;
 
-    // Generate the PDF on the fly if not yet generated or if /tmp/reports was cleared
-    if (!pdfPath || !fs.existsSync(pdfPath)) {
+    // Check if existing cached PDF is an old plain-text fallback (< 5KB) or missing
+    let needsRegeneration = forceRegenerate || !pdfPath || !fs.existsSync(pdfPath);
+    if (!needsRegeneration && pdfPath) {
+      try {
+        const stats = fs.statSync(pdfPath);
+        if (stats.size < 8000) {
+          needsRegeneration = true;
+        }
+      } catch {
+        needsRegeneration = true;
+      }
+    }
+
+    if (needsRegeneration) {
       pdfPath = await generateAuditPdf(auditId);
       await prisma.audit.update({
         where: { id: auditId },
@@ -29,12 +42,13 @@ export async function GET(
       });
     }
 
-    const fileBuffer = fs.readFileSync(pdfPath);
+    const fileBuffer = fs.readFileSync(pdfPath!);
 
     return new NextResponse(fileBuffer, {
       headers: {
         'Content-Type': 'application/pdf',
         'Content-Disposition': `attachment; filename="SEO-Audit-${audit.id}.pdf"`,
+        'Cache-Control': 'no-store, max-age=0',
       },
     });
   } catch (error: any) {
@@ -42,3 +56,4 @@ export async function GET(
     return NextResponse.json({ error: error.message || 'Failed to generate PDF' }, { status: 500 });
   }
 }
+

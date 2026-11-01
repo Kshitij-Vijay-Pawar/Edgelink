@@ -267,7 +267,7 @@ export default function ClientDashboard({ params }: { params: Promise<{ id: stri
     if (!audit) return;
     setIsDownloading(true);
     try {
-      const res = await fetch(`/api/reports/${audit.id}`);
+      const res = await fetch(`/api/reports/${audit.id}?regenerate=true`);
       if (!res.ok) {
         const err = await res.json().catch(() => ({ error: 'PDF generation failed' }));
         alert(err.error || 'Could not download PDF');
