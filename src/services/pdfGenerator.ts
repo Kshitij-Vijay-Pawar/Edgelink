@@ -37,9 +37,8 @@ function renderRadarSvg(scores: { label: string; value: number }[]): string {
           return `${p.x},${p.y}`;
         })
         .join(' ');
-      return `<polygon points="${pts}" fill="none" stroke="#cbd5e1" stroke-width="1" ${
-        lvl === 100 ? '' : 'stroke-dasharray="3,3"'
-      } />`;
+      return `<polygon points="${pts}" fill="none" stroke="#cbd5e1" stroke-width="1" ${lvl === 100 ? '' : 'stroke-dasharray="3,3"'
+        } />`;
     })
     .join('\n');
 
@@ -763,12 +762,12 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
 
     <div class="pillars-grid">
       ${pillarScores
-        .map((p) => {
-          const color = p.value >= 75 ? '#10b981' : p.value >= 60 ? '#0d9488' : '#f59e0b';
-          const tagBg = p.value >= 75 ? '#d1fae5' : p.value >= 60 ? '#ccfbf1' : '#fef3c7';
-          const tagColor = p.value >= 75 ? '#065f46' : p.value >= 60 ? '#115e59' : '#92400e';
-          const statusText = p.value >= 75 ? 'GOOD' : p.value >= 60 ? 'FAIR' : 'NEEDS WORK';
-          return `
+      .map((p) => {
+        const color = p.value >= 75 ? '#10b981' : p.value >= 60 ? '#0d9488' : '#f59e0b';
+        const tagBg = p.value >= 75 ? '#d1fae5' : p.value >= 60 ? '#ccfbf1' : '#fef3c7';
+        const tagColor = p.value >= 75 ? '#065f46' : p.value >= 60 ? '#115e59' : '#92400e';
+        const statusText = p.value >= 75 ? 'GOOD' : p.value >= 60 ? 'FAIR' : 'NEEDS WORK';
+        return `
             <div class="pillar-card">
               <div class="pillar-top">
                 <span class="pillar-val">${p.value}%</span>
@@ -780,8 +779,8 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
               <div class="pillar-name">${escapeHtml(p.label)}</div>
             </div>
           `;
-        })
-        .join('')}
+      })
+      .join('')}
     </div>
   </div>
 
@@ -814,9 +813,9 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
         </div>
         <div class="legend-list">
           ${donutSegments
-            .map((seg) => {
-              const pct = Math.round((seg.count / totalFindings) * 100);
-              return `
+      .map((seg) => {
+        const pct = Math.round((seg.count / totalFindings) * 100);
+        return `
                 <div class="legend-item">
                   <div class="legend-left">
                     <span class="dot" style="background:${seg.color};"></span>
@@ -825,16 +824,15 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
                   <strong>${seg.count} (${pct}%)</strong>
                 </div>
               `;
-            })
-            .join('')}
+      })
+      .join('')}
         </div>
       </div>
     </div>
   </div>
 
   <!-- Critical Issues, Important Issues & Quick Wins -->
-  ${
-    criticalIssues.length > 0 || importantIssues.length > 0 || quickWins.length > 0
+  ${criticalIssues.length > 0 || importantIssues.length > 0 || quickWins.length > 0
       ? `
     <div class="issues-grid">
       <div class="issue-col crit">
@@ -858,7 +856,7 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
     </div>
   `
       : ''
-  }
+    }
 
   <!-- Google Search Console & SERP Competitor Benchmark -->
   <div class="gsc-serp-row">
@@ -867,10 +865,10 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
       <p class="card-sub">Top organic search queries, clicks, CTR &amp; average position</p>
       <div style="margin-top: 8px;">
         ${gscRows
-          .slice(0, 4)
-          .map((row) => {
-            const widthPct = Math.max(10, Math.round(((row.clicks || 10) / maxClicks) * 100));
-            return `
+      .slice(0, 4)
+      .map((row) => {
+        const widthPct = Math.max(10, Math.round(((row.clicks || 10) / maxClicks) * 100));
+        return `
               <div class="gsc-row-item">
                 <div class="gsc-meta">
                   <span class="gsc-query">${escapeHtml(row.query)}</span>
@@ -881,8 +879,8 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
                 </div>
               </div>
             `;
-          })
-          .join('')}
+      })
+      .join('')}
       </div>
     </div>
 
@@ -891,11 +889,11 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
       <p class="card-sub">Organic position vs. regional competitors</p>
       <div style="margin-top: 8px;">
         ${serpItems
-          .slice(0, 3)
-          .map((item, idx) => {
-            const isClient = idx === 0;
-            const barW = Math.max(25, 100 - (item.rank_absolute || 4) * 6);
-            return `
+      .slice(0, 3)
+      .map((item, idx) => {
+        const isClient = idx === 0;
+        const barW = Math.max(25, 100 - (item.rank_absolute || 4) * 6);
+        return `
               <div class="serp-card-item ${isClient ? 'client' : ''}">
                 <div style="display:flex; justify-content:space-between; font-size:9.5px; margin-bottom:4px;">
                   <strong style="color:#0f172a;">${isClient ? '★ ' : ''}${escapeHtml(item.domain)}</strong>
@@ -906,8 +904,8 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
                 </div>
               </div>
             `;
-          })
-          .join('')}
+      })
+      .join('')}
       </div>
     </div>
   </div>
@@ -967,7 +965,7 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
 
     try {
       const page = await browser.newPage();
-      await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+      await page.setContent(htmlContent, { waitUntil: 'load' });
       await page.pdf({
         path: pdfFilePath,
         format: 'A4',
