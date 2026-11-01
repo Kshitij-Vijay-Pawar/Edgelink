@@ -21,12 +21,12 @@ export async function GET(
     const forceRegenerate = req.nextUrl.searchParams.get('regenerate') === 'true';
     let pdfPath = audit.pdfPath;
 
-    // Check if existing cached PDF is an old plain-text fallback (< 5KB) or missing
+    // Check if existing cached PDF is an old 1-page fallback (< 35KB) or missing
     let needsRegeneration = forceRegenerate || !pdfPath || !fs.existsSync(pdfPath);
     if (!needsRegeneration && pdfPath) {
       try {
         const stats = fs.statSync(pdfPath);
-        if (stats.size < 8000) {
+        if (stats.size < 35000) {
           needsRegeneration = true;
         }
       } catch {

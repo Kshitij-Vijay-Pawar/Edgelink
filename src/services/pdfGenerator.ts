@@ -37,8 +37,9 @@ function renderRadarSvg(scores: { label: string; value: number }[]): string {
           return `${p.x},${p.y}`;
         })
         .join(' ');
-      return `<polygon points="${pts}" fill="none" stroke="#cbd5e1" stroke-width="1" ${lvl === 100 ? '' : 'stroke-dasharray="3,3"'
-        } />`;
+      return `<polygon points="${pts}" fill="none" stroke="#cbd5e1" stroke-width="1" ${
+        lvl === 100 ? '' : 'stroke-dasharray="3,3"'
+      } />`;
     })
     .join('\n');
 
@@ -177,7 +178,6 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
     { rank_absolute: 12, domain: 'regional-directory-india.in' },
   ];
 
-  // Radial gauge SVG calculation
   const gaugeRadius = 42;
   const gaugeCircumference = 2 * Math.PI * gaugeRadius;
   const gaugeOffset = gaugeCircumference - (overallScore / 100) * gaugeCircumference;
@@ -215,8 +215,6 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
       background: #ffffff;
       font-size: 11px;
     }
-
-    /* Top Brand Banner */
     .top-banner {
       background: linear-gradient(135deg, #0f172a 0%, #134e4a 60%, #0f766e 100%);
       color: #ffffff;
@@ -228,499 +226,105 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
       margin-bottom: 16px;
       box-shadow: 0 4px 14px rgba(15, 118, 110, 0.12);
     }
-    .brand-left {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+    .brand-left { display: flex; flex-direction: column; gap: 4px; }
     .brand-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(20, 184, 166, 0.2);
-      border: 1px solid rgba(94, 234, 212, 0.35);
-      color: #5eead4;
-      font-size: 9px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 999px;
-      width: fit-content;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(20, 184, 166, 0.2); border: 1px solid rgba(94, 234, 212, 0.35);
+      color: #5eead4; font-size: 9px; font-weight: 800; letter-spacing: 1px;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 999px; width: fit-content;
     }
-    .report-title {
-      font-size: 22px;
-      font-weight: 900;
-      letter-spacing: -0.4px;
-      margin: 2px 0 0 0;
-      color: #ffffff;
-    }
-    .report-subtitle {
-      font-size: 11.5px;
-      color: #cbd5e1;
-      margin: 0;
-    }
-    .report-subtitle strong {
-      color: #ffffff;
-    }
+    .report-title { font-size: 22px; font-weight: 900; letter-spacing: -0.4px; margin: 2px 0 0 0; color: #ffffff; }
+    .report-subtitle { font-size: 11.5px; color: #cbd5e1; margin: 0; }
+    .report-subtitle strong { color: #ffffff; }
     .brand-right {
-      text-align: right;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      padding: 10px 14px;
-      border-radius: 10px;
+      text-align: right; background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15); padding: 10px 14px; border-radius: 10px;
     }
-    .meta-row {
-      font-size: 10px;
-      color: #e2e8f0;
-      margin-bottom: 3px;
-    }
-    .meta-row:last-child {
-      margin-bottom: 0;
-    }
-    .meta-row span {
-      color: #94a3b8;
-      text-transform: uppercase;
-      font-size: 8.5px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      margin-right: 4px;
-    }
-
-    /* Score Strip */
+    .meta-row { font-size: 10px; color: #e2e8f0; margin-bottom: 3px; }
+    .meta-row:last-child { margin-bottom: 0; }
+    .meta-row span { color: #94a3b8; text-transform: uppercase; font-size: 8.5px; font-weight: 700; letter-spacing: 0.5px; margin-right: 4px; }
     .score-strip {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 14px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      margin-bottom: 16px;
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 14px;
+      padding: 14px 18px; display: flex; align-items: center; gap: 18px; margin-bottom: 16px;
     }
     .gauge-box {
-      position: relative;
-      width: 104px;
-      height: 104px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      background: #ffffff;
-      border-radius: 12px;
-      border: 1px solid #e2e8f0;
+      position: relative; width: 104px; height: 104px; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0; background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0;
     }
-    .gauge-center {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-    }
-    .gauge-num {
-      font-size: 24px;
-      font-weight: 900;
-      color: #0f172a;
-      line-height: 1;
-    }
-    .gauge-cap {
-      font-size: 7.5px;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: #0f766e;
-      letter-spacing: 0.6px;
-      margin-top: 2px;
-    }
-    .pillars-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      flex: 1;
-    }
-    .pillar-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 10px 10px;
-    }
-    .pillar-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 6px;
-    }
-    .pillar-val {
-      font-size: 17px;
-      font-weight: 900;
-      color: #0f172a;
-    }
-    .pillar-tag {
-      font-size: 8px;
-      font-weight: 700;
-      padding: 1px 5px;
-      border-radius: 99px;
-    }
-    .bar-track {
-      width: 100%;
-      height: 6px;
-      background: #e2e8f0;
-      border-radius: 99px;
-      overflow: hidden;
-      margin-bottom: 6px;
-    }
-    .bar-fill {
-      height: 100%;
-      border-radius: 99px;
-    }
-    .pillar-name {
-      font-size: 9px;
-      font-weight: 800;
-      color: #475569;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-
-    /* Executive Summary */
+    .gauge-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .gauge-num { font-size: 24px; font-weight: 900; color: #0f172a; line-height: 1; }
+    .gauge-cap { font-size: 7.5px; font-weight: 800; text-transform: uppercase; color: #0f766e; letter-spacing: 0.6px; margin-top: 2px; }
+    .pillars-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; flex: 1; }
+    .pillar-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 10px; padding: 10px 10px; }
+    .pillar-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+    .pillar-val { font-size: 17px; font-weight: 900; color: #0f172a; }
+    .pillar-tag { font-size: 8px; font-weight: 700; padding: 1px 5px; border-radius: 99px; }
+    .bar-track { width: 100%; height: 6px; background: #e2e8f0; border-radius: 99px; overflow: hidden; margin-bottom: 6px; }
+    .bar-fill { height: 100%; border-radius: 99px; }
+    .pillar-name { font-size: 9px; font-weight: 800; color: #475569; text-transform: uppercase; letter-spacing: 0.4px; }
     .exec-card {
-      background: linear-gradient(to right, #f0fdf4, #ecfdf5);
-      border: 1px solid #bbf7d0;
-      border-left: 5px solid #10b981;
-      border-radius: 10px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
+      background: linear-gradient(to right, #f0fdf4, #ecfdf5); border: 1px solid #bbf7d0;
+      border-left: 5px solid #10b981; border-radius: 10px; padding: 12px 16px; margin-bottom: 16px;
     }
-    .exec-header {
-      font-size: 10px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      color: #065f46;
-      margin-bottom: 4px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .exec-body {
-      font-size: 11.5px;
-      color: #064e3b;
-      margin: 0;
-      line-height: 1.5;
-    }
-
-    /* Analytics 2-Column Row (Radar + Donut) */
-    .charts-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 16px;
-    }
-    .chart-card {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 12px 16px;
-    }
-    .card-title {
-      font-size: 12px;
-      font-weight: 800;
-      color: #0f172a;
-      margin: 0 0 2px 0;
-    }
-    .card-sub {
-      font-size: 9.5px;
-      color: #64748b;
-      margin: 0 0 8px 0;
-    }
-    .donut-wrap {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      margin-top: 8px;
-    }
-    .donut-box {
-      position: relative;
-      width: 130px;
-      height: 130px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-    .donut-center {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .donut-total {
-      font-size: 22px;
-      font-weight: 900;
-      color: #0f172a;
-      line-height: 1;
-    }
-    .donut-label {
-      font-size: 8px;
-      font-weight: 700;
-      color: #64748b;
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-    .legend-list {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .legend-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 5px 8px;
-      border-radius: 8px;
-      background: #f8fafc;
-      border: 1px solid #f1f5f9;
-      font-size: 10px;
-    }
-    .legend-left {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 600;
-      color: #334155;
-    }
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 99px;
-      display: inline-block;
-    }
-
-    /* Issues 3-Column Grid */
-    .issues-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    .issue-col {
-      border-radius: 12px;
-      padding: 12px;
-      border: 1px solid #e2e8f0;
-    }
-    .issue-col.crit {
-      background: #fef2f2;
-      border-color: #fecaca;
-    }
-    .issue-col.imp {
-      background: #fffbeb;
-      border-color: #fde68a;
-    }
-    .issue-col.win {
-      background: #f0fdfa;
-      border-color: #99f6e4;
-    }
-    .issue-col-title {
-      font-size: 10.5px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      margin-bottom: 8px;
-    }
+    .exec-header { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: #065f46; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .exec-body { font-size: 11.5px; color: #064e3b; margin: 0; line-height: 1.5; }
+    .charts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 16px; }
+    .chart-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 12px 16px; }
+    .card-title { font-size: 12px; font-weight: 800; color: #0f172a; margin: 0 0 2px 0; }
+    .card-sub { font-size: 9.5px; color: #64748b; margin: 0 0 8px 0; }
+    .donut-wrap { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+    .donut-box { position: relative; width: 130px; height: 130px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .donut-total { font-size: 22px; font-weight: 900; color: #0f172a; line-height: 1; }
+    .donut-label { font-size: 8px; font-weight: 700; color: #64748b; text-transform: uppercase; margin-top: 2px; }
+    .legend-list { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+    .legend-item { display: flex; justify-content: space-between; align-items: center; padding: 5px 8px; border-radius: 8px; background: #f8fafc; border: 1px solid #f1f5f9; font-size: 10px; }
+    .legend-left { display: flex; align-items: center; gap: 6px; font-weight: 600; color: #334155; }
+    .dot { width: 8px; height: 8px; border-radius: 99px; display: inline-block; }
+    .issues-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 16px; }
+    .issue-col { border-radius: 12px; padding: 12px; border: 1px solid #e2e8f0; }
+    .issue-col.crit { background: #fef2f2; border-color: #fecaca; }
+    .issue-col.imp { background: #fffbeb; border-color: #fde68a; }
+    .issue-col.win { background: #f0fdfa; border-color: #99f6e4; }
+    .issue-col-title { font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
     .crit .issue-col-title { color: #b91c1c; }
     .imp .issue-col-title { color: #b45309; }
     .win .issue-col-title { color: #0f766e; }
-    .issue-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-    .issue-item {
-      background: rgba(255, 255, 255, 0.85);
-      padding: 6px 8px;
-      border-radius: 6px;
-      font-size: 9.8px;
-      color: #1e293b;
-      line-height: 1.35;
-      border: 1px solid rgba(0, 0, 0, 0.04);
-    }
-
-    /* GSC & SERP Benchmark Row */
-    .gsc-serp-row {
-      display: grid;
-      grid-template-columns: 1.45fr 1fr;
-      gap: 14px;
-      margin-bottom: 18px;
-      page-break-inside: avoid;
-    }
-    .gsc-row-item {
-      margin-bottom: 8px;
-    }
-    .gsc-row-item:last-child {
-      margin-bottom: 0;
-    }
-    .gsc-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 9.5px;
-      margin-bottom: 3px;
-    }
-    .gsc-query {
-      font-weight: 700;
-      color: #1e293b;
-    }
-    .gsc-stats {
-      color: #64748b;
-      font-weight: 600;
-    }
-    .serp-card-item {
-      padding: 7px 10px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
-      background: #f8fafc;
-      margin-bottom: 7px;
-    }
-    .serp-card-item.client {
-      background: #f0fdfa;
-      border-color: #5eead4;
-    }
-
-    /* Section Header */
-    .section-heading {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 14px 0 10px 0;
-      padding-bottom: 6px;
-      border-bottom: 2px solid #0f172a;
-    }
-    .section-heading h2 {
-      font-size: 13.5px;
-      font-weight: 900;
-      color: #0f172a;
-      margin: 0;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
-    .section-heading span {
-      font-size: 9.5px;
-      font-weight: 700;
-      color: #0f766e;
-    }
-
-    /* Recommendations Cards / Table */
-    .rec-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .rec-card {
-      border: 1px solid #cbd5e1;
-      border-radius: 10px;
-      padding: 11px 14px;
-      background: #ffffff;
-      page-break-inside: avoid;
-    }
-    .rec-top {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 6px;
-    }
-    .rec-badges {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .badge-prio {
-      font-size: 8.5px;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: 99px;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-    }
+    .issue-list { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 5px; }
+    .issue-item { background: rgba(255, 255, 255, 0.85); padding: 6px 8px; border-radius: 6px; font-size: 9.8px; color: #1e293b; line-height: 1.35; border: 1px solid rgba(0, 0, 0, 0.04); }
+    .gsc-serp-row { display: grid; grid-template-columns: 1.45fr 1fr; gap: 14px; margin-bottom: 18px; page-break-inside: avoid; }
+    .gsc-row-item { margin-bottom: 8px; }
+    .gsc-row-item:last-child { margin-bottom: 0; }
+    .gsc-meta { display: flex; justify-content: space-between; font-size: 9.5px; margin-bottom: 3px; }
+    .gsc-query { font-weight: 700; color: #1e293b; }
+    .gsc-stats { color: #64748b; font-weight: 600; }
+    .serp-card-item { padding: 7px 10px; border-radius: 8px; border: 1px solid #e2e8f0; background: #f8fafc; margin-bottom: 7px; }
+    .serp-card-item.client { background: #f0fdfa; border-color: #5eead4; }
+    .section-heading { display: flex; justify-content: space-between; align-items: center; margin: 14px 0 10px 0; padding-bottom: 6px; border-bottom: 2px solid #0f172a; }
+    .section-heading h2 { font-size: 13.5px; font-weight: 900; color: #0f172a; margin: 0; text-transform: uppercase; letter-spacing: 0.4px; }
+    .section-heading span { font-size: 9.5px; font-weight: 700; color: #0f766e; }
+    .rec-list { display: flex; flex-direction: column; gap: 10px; }
+    .rec-card { border: 1px solid #cbd5e1; border-radius: 10px; padding: 11px 14px; background: #ffffff; page-break-inside: avoid; }
+    .rec-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+    .rec-badges { display: flex; align-items: center; gap: 6px; }
+    .badge-prio { font-size: 8.5px; font-weight: 800; padding: 2px 8px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.4px; }
     .prio-CRITICAL { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
     .prio-HIGH { background: #ffedd5; color: #9a3412; border: 1px solid #fdba74; }
     .prio-MEDIUM { background: #fef3c7; color: #92400e; border: 1px solid #fcd34d; }
     .prio-LOW { background: #dbeafe; color: #1e40af; border: 1px solid #93c5fd; }
-
-    .badge-cat {
-      font-size: 8.5px;
-      font-weight: 700;
-      padding: 2px 8px;
-      border-radius: 6px;
-      background: #f1f5f9;
-      color: #334155;
-      text-transform: uppercase;
-    }
-    .rec-meta {
-      font-size: 9px;
-      color: #64748b;
-      font-weight: 600;
-    }
-    .rec-finding {
-      font-size: 11.5px;
-      font-weight: 800;
-      color: #0f172a;
-      margin: 0 0 6px 0;
-    }
-    .rec-boxes {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr;
-      gap: 8px;
-    }
-    .rec-subbox {
-      padding: 7px 10px;
-      border-radius: 7px;
-      font-size: 9.8px;
-      line-height: 1.4;
-    }
-    .rec-fix {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      color: #1e293b;
-    }
-    .rec-check {
-      background: #f0fdfa;
-      border: 1px solid #ccfbf1;
-      color: #115e59;
-    }
-    .subbox-label {
-      font-size: 8px;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      display: block;
-      margin-bottom: 2px;
-      color: #475569;
-    }
-    .rec-check .subbox-label {
-      color: #0f766e;
-    }
-
-    /* Footer */
-    .footer {
-      margin-top: 18px;
-      padding-top: 10px;
-      border-top: 1px solid #e2e8f0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 9px;
-      color: #64748b;
-    }
+    .badge-cat { font-size: 8.5px; font-weight: 700; padding: 2px 8px; border-radius: 6px; background: #f1f5f9; color: #334155; text-transform: uppercase; }
+    .rec-meta { font-size: 9px; color: #64748b; font-weight: 600; }
+    .rec-finding { font-size: 11.5px; font-weight: 800; color: #0f172a; margin: 0 0 6px 0; }
+    .rec-boxes { display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px; }
+    .rec-subbox { padding: 7px 10px; border-radius: 7px; font-size: 9.8px; line-height: 1.4; }
+    .rec-fix { background: #f8fafc; border: 1px solid #e2e8f0; color: #1e293b; }
+    .rec-check { background: #f0fdfa; border: 1px solid #ccfbf1; color: #115e59; }
+    .subbox-label { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; display: block; margin-bottom: 2px; color: #475569; }
+    .rec-check .subbox-label { color: #0f766e; }
+    .footer { margin-top: 18px; padding-top: 10px; border-top: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center; font-size: 9px; color: #64748b; }
   </style>
 </head>
 <body>
-
-  <!-- Top Header Banner -->
   <div class="top-banner">
     <div class="brand-left">
       <div class="brand-pill">● EDGELINK TECHNOLOGY • SEO INTELLIGENCE</div>
@@ -737,7 +341,6 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
     </div>
   </div>
 
-  <!-- Overall Score Gauge + 5 Pillars Strip -->
   <div class="score-strip">
     <div class="gauge-box">
       <svg width="96" height="96" viewBox="0 0 100 100" style="transform: rotate(-90deg);">
@@ -762,12 +365,12 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
 
     <div class="pillars-grid">
       ${pillarScores
-      .map((p) => {
-        const color = p.value >= 75 ? '#10b981' : p.value >= 60 ? '#0d9488' : '#f59e0b';
-        const tagBg = p.value >= 75 ? '#d1fae5' : p.value >= 60 ? '#ccfbf1' : '#fef3c7';
-        const tagColor = p.value >= 75 ? '#065f46' : p.value >= 60 ? '#115e59' : '#92400e';
-        const statusText = p.value >= 75 ? 'GOOD' : p.value >= 60 ? 'FAIR' : 'NEEDS WORK';
-        return `
+        .map((p) => {
+          const color = p.value >= 75 ? '#10b981' : p.value >= 60 ? '#0d9488' : '#f59e0b';
+          const tagBg = p.value >= 75 ? '#d1fae5' : p.value >= 60 ? '#ccfbf1' : '#fef3c7';
+          const tagColor = p.value >= 75 ? '#065f46' : p.value >= 60 ? '#115e59' : '#92400e';
+          const statusText = p.value >= 75 ? 'GOOD' : p.value >= 60 ? 'FAIR' : 'NEEDS WORK';
+          return `
             <div class="pillar-card">
               <div class="pillar-top">
                 <span class="pillar-val">${p.value}%</span>
@@ -779,18 +382,16 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
               <div class="pillar-name">${escapeHtml(p.label)}</div>
             </div>
           `;
-      })
-      .join('')}
+        })
+        .join('')}
     </div>
   </div>
 
-  <!-- Executive Summary -->
   <div class="exec-card">
     <div class="exec-header">★ Executive Intelligence Summary</div>
     <p class="exec-body">${escapeHtml(audit.executiveSummary || 'Audit completed successfully.')}</p>
   </div>
 
-  <!-- Visual Charts Row: 5-Pillar Radar + Severity Donut -->
   <div class="charts-row">
     <div class="chart-card">
       <h3 class="card-title">5-Pillar Dimensional Balance</h3>
@@ -813,9 +414,9 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
         </div>
         <div class="legend-list">
           ${donutSegments
-      .map((seg) => {
-        const pct = Math.round((seg.count / totalFindings) * 100);
-        return `
+            .map((seg) => {
+              const pct = Math.round((seg.count / totalFindings) * 100);
+              return `
                 <div class="legend-item">
                   <div class="legend-left">
                     <span class="dot" style="background:${seg.color};"></span>
@@ -824,15 +425,15 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
                   <strong>${seg.count} (${pct}%)</strong>
                 </div>
               `;
-      })
-      .join('')}
+            })
+            .join('')}
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Critical Issues, Important Issues & Quick Wins -->
-  ${criticalIssues.length > 0 || importantIssues.length > 0 || quickWins.length > 0
+  ${
+    criticalIssues.length > 0 || importantIssues.length > 0 || quickWins.length > 0
       ? `
     <div class="issues-grid">
       <div class="issue-col crit">
@@ -856,19 +457,18 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
     </div>
   `
       : ''
-    }
+  }
 
-  <!-- Google Search Console & SERP Competitor Benchmark -->
   <div class="gsc-serp-row">
     <div class="chart-card">
       <h3 class="card-title">Google Search Console Keyword Performance</h3>
       <p class="card-sub">Top organic search queries, clicks, CTR &amp; average position</p>
       <div style="margin-top: 8px;">
         ${gscRows
-      .slice(0, 4)
-      .map((row) => {
-        const widthPct = Math.max(10, Math.round(((row.clicks || 10) / maxClicks) * 100));
-        return `
+          .slice(0, 4)
+          .map((row) => {
+            const widthPct = Math.max(10, Math.round(((row.clicks || 10) / maxClicks) * 100));
+            return `
               <div class="gsc-row-item">
                 <div class="gsc-meta">
                   <span class="gsc-query">${escapeHtml(row.query)}</span>
@@ -879,8 +479,8 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
                 </div>
               </div>
             `;
-      })
-      .join('')}
+          })
+          .join('')}
       </div>
     </div>
 
@@ -889,11 +489,11 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
       <p class="card-sub">Organic position vs. regional competitors</p>
       <div style="margin-top: 8px;">
         ${serpItems
-      .slice(0, 3)
-      .map((item, idx) => {
-        const isClient = idx === 0;
-        const barW = Math.max(25, 100 - (item.rank_absolute || 4) * 6);
-        return `
+          .slice(0, 3)
+          .map((item, idx) => {
+            const isClient = idx === 0;
+            const barW = Math.max(25, 100 - (item.rank_absolute || 4) * 6);
+            return `
               <div class="serp-card-item ${isClient ? 'client' : ''}">
                 <div style="display:flex; justify-content:space-between; font-size:9.5px; margin-bottom:4px;">
                   <strong style="color:#0f172a;">${isClient ? '★ ' : ''}${escapeHtml(item.domain)}</strong>
@@ -904,13 +504,12 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
                 </div>
               </div>
             `;
-      })
-      .join('')}
+          })
+          .join('')}
       </div>
     </div>
   </div>
 
-  <!-- Prioritized Action Plan -->
   <div class="section-heading">
     <h2>Prioritized Remediation Roadmap</h2>
     <span>Verified with Falsifiability Metrics</span>
@@ -951,7 +550,6 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
     <span><strong>EDGELINK TECHNOLOGY</strong> • Confidential Client SEO Audit Report</span>
     <span>Generated on ${generatedDate} • Powered by 7-Step Signal Crawler &amp; Claude Sonnet 4.6</span>
   </div>
-
 </body>
 </html>
   `;
@@ -978,13 +576,32 @@ export async function generateAuditPdf(auditId: string): Promise<string> {
       await browser.close();
     }
   } catch (puppeteerErr: any) {
-    console.warn(`⚠️ [PDF Generator] Puppeteer launch fallback (${puppeteerErr.message}), generating native vector PDF...`);
-    const fallbackBuffer = buildStyledFallbackPdfBuffer(audit, breakdown);
+    console.warn(`⚠️ [PDF Generator] Serverless / Vercel vector PDF engine (${puppeteerErr.message})...`);
+    const fallbackBuffer = buildFullTwoPageVectorPdf(
+      audit,
+      breakdown,
+      pillarScores,
+      donutSegments,
+      totalFindings,
+      criticalIssues,
+      importantIssues,
+      quickWins,
+      gscRows,
+      maxClicks,
+      serpItems,
+      generatedDate
+    );
     fs.writeFileSync(pdfFilePath, fallbackBuffer);
-    console.log(`📄 [PDF Generator] Generated fallback styled PDF at ${pdfFilePath}`);
+    console.log(`📄 [PDF Generator] Generated 2-page vector PDF with charts at ${pdfFilePath}`);
     return pdfFilePath;
   }
 }
+
+// ============================================================================
+// PURE VECTOR 2-PAGE PDF ENGINE FOR VERCEL SERVERLESS (NO CHROME REQUIRED)
+// Renders the exact 2-page layout with Radial Gauge, Radar Chart, Donut Chart,
+// 3-Column Issues Grid, GSC Bars, SERP Benchmark & Remediation Cards
+// ============================================================================
 
 function escapePdfText(str: string): string {
   return (str || '')
@@ -1010,121 +627,523 @@ function wrapText(text: string, maxChars: number): string[] {
   return lines.length ? lines : [''];
 }
 
-function buildStyledFallbackPdfBuffer(audit: any, breakdown: any): Buffer {
-  const ops: string[] = [];
+function hexToRgbPdf(hex: string): string {
+  const clean = hex.replace('#', '');
+  const r = (parseInt(clean.substring(0, 2), 16) / 255).toFixed(3);
+  const g = (parseInt(clean.substring(2, 4), 16) / 255).toFixed(3);
+  const b = (parseInt(clean.substring(4, 6), 16) / 255).toFixed(3);
+  return `${r} ${g} ${b}`;
+}
 
-  // Dark Teal Header Banner (x=36, y=735, w=523, h=72)
-  ops.push('0.06 0.46 0.43 rg');
-  ops.push('36 735 523 72 re f');
+function pdfRoundedRect(
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  r: number,
+  op: 'f' | 'S' | 'B'
+): string {
+  const k = 0.552284749831 * r;
+  return [
+    `${(x + r).toFixed(2)} ${y.toFixed(2)} m`,
+    `${(x + w - r).toFixed(2)} ${y.toFixed(2)} l`,
+    `${(x + w - r + k).toFixed(2)} ${y.toFixed(2)} ${(x + w).toFixed(2)} ${(y + r - k).toFixed(2)} ${(x + w).toFixed(2)} ${(y + r).toFixed(2)} c`,
+    `${(x + w).toFixed(2)} ${(y + h - r).toFixed(2)} l`,
+    `${(x + w).toFixed(2)} ${(y + h - r + k).toFixed(2)} ${(x + w - r + k).toFixed(2)} ${(y + h).toFixed(2)} ${(x + w - r).toFixed(2)} ${(y + h).toFixed(2)} c`,
+    `${(x + r).toFixed(2)} ${(y + h).toFixed(2)} l`,
+    `${(x + r - k).toFixed(2)} ${(y + h).toFixed(2)} ${x.toFixed(2)} ${(y + h - r + k).toFixed(2)} ${x.toFixed(2)} ${(y + h - r).toFixed(2)} c`,
+    `${x.toFixed(2)} ${(y + r).toFixed(2)} l`,
+    `${x.toFixed(2)} ${(y + r - k).toFixed(2)} ${(x + r - k).toFixed(2)} ${y.toFixed(2)} ${(x + r).toFixed(2)} ${y.toFixed(2)} c`,
+    op,
+  ].join(' ');
+}
 
-  // Header Text
-  ops.push('BT /F2 9 Tf 0.60 0.96 0.89 rg 52 790 Td (EDGELINK TECHNOLOGY  |  CONFIDENTIAL SEO INTELLIGENCE REPORT) Tj ET');
-  ops.push(`BT /F2 18 Tf 1 1 1 rg 52 768 Td (${escapePdfText(audit.client?.name || 'Client SEO Audit')}) Tj ET`);
-  ops.push(`BT /F1 10 Tf 0.85 0.92 0.90 rg 52 749 Td (Target URL: ${escapePdfText(audit.url)}   |   Location: ${escapePdfText(audit.client?.city || 'India')}) Tj ET`);
-
-  // Overall Score Badge inside Banner
-  ops.push('0.04 0.32 0.30 rg 475 745 68 52 re f');
-  ops.push(`BT /F2 22 Tf 1 1 1 rg 495 768 Td (${audit.overallScore ?? 64}) Tj ET`);
-  ops.push('BT /F2 7 Tf 0.60 0.96 0.89 rg 487 753 Td (OVERALL SCORE) Tj ET');
-
-  // 5-Pillar Score Cards Row (y=668, h=52)
-  const pillars = [
-    { label: 'TECHNICAL', val: breakdown.technical ?? 72 },
-    { label: 'ON-PAGE', val: breakdown.on_page ?? 68 },
-    { label: 'CONTENT', val: breakdown.content ?? 60 },
-    { label: 'CWV SPEED', val: breakdown.core_web_vitals ?? 52 },
-    { label: 'SCHEMA', val: breakdown.schema ?? 45 },
-  ];
-
-  pillars.forEach((p, i) => {
-    const x = 36 + i * 106;
-    ops.push('0.97 0.98 0.99 rg');
-    ops.push(`${x} 668 98 52 re f`);
-    ops.push('0.88 0.91 0.94 RG 1 w');
-    ops.push(`${x} 668 98 52 re S`);
-
-    // Progress bar background & fill
-    ops.push('0.88 0.91 0.94 rg');
-    ops.push(`${x + 10} 684 78 5 re f`);
-    const fillW = Math.round((Math.min(100, Math.max(0, p.val)) / 100) * 78);
-    if (p.val >= 70) ops.push('0.06 0.72 0.50 rg');
-    else if (p.val >= 55) ops.push('0.05 0.58 0.53 rg');
-    else ops.push('0.96 0.62 0.04 rg');
-    ops.push(`${x + 10} 684 ${fillW} 5 re f`);
-
-    ops.push(`BT /F2 15 Tf 0.06 0.09 0.16 rg ${x + 10} 698 Td (${p.val}%) Tj ET`);
-    ops.push(`BT /F2 7.5 Tf 0.39 0.45 0.55 rg ${x + 10} 673 Td (${p.label}) Tj ET`);
-  });
-
-  // Executive Summary Box (y=588, h=66)
-  ops.push('0.94 0.99 0.96 rg 36 588 523 66 re f');
-  ops.push('0.06 0.72 0.50 rg 36 588 4 66 re f');
-  ops.push('BT /F2 9.5 Tf 0.02 0.37 0.27 rg 48 639 Td (EXECUTIVE SUMMARY) Tj ET');
-
-  const execLines = wrapText(audit.executiveSummary || 'Audit completed.', 92).slice(0, 3);
-  execLines.forEach((line, idx) => {
-    ops.push(`BT /F1 9.5 Tf 0.04 0.30 0.23 rg 48 ${623 - idx * 13} Td (${escapePdfText(line)}) Tj ET`);
-  });
-
-  // Section Title: Prioritized Recommendations
-  ops.push('BT /F2 12 Tf 0.06 0.09 0.16 rg 36 562 Td (PRIORITIZED REMEDIATION ROADMAP) Tj ET');
-  ops.push('0.06 0.46 0.43 RG 1.5 w 36 555 m 559 555 l S');
-
-  let curY = 538;
-  for (const r of (audit.recommendations || []).slice(0, 5)) {
-    if (curY < 110) break;
-    const cardH = 82;
-    const topY = curY - cardH;
-
-    // Card background & border
-    ops.push('0.99 0.99 1.0 rg');
-    ops.push(`36 ${topY} 523 ${cardH} re f`);
-    ops.push('0.82 0.86 0.90 RG 0.8 w');
-    ops.push(`36 ${topY} 523 ${cardH} re S`);
-
-    // Left priority accent bar
-    if (r.priority === 'CRITICAL') ops.push('0.86 0.15 0.15 rg');
-    else if (r.priority === 'HIGH') ops.push('0.92 0.35 0.05 rg');
-    else ops.push('0.85 0.47 0.02 rg');
-    ops.push(`36 ${topY} 5 ${cardH} re f`);
-
-    // Priority & Category Header
-    ops.push(
-      `BT /F2 8.5 Tf 0.06 0.46 0.43 rg 48 ${curY - 15} Td ([${escapePdfText(r.priority)}]  ${escapePdfText(
-        r.category
-      )}   |   Impact: ${escapePdfText(r.estimatedImpact || 'High')}   |   Effort: ${escapePdfText(r.effort)}) Tj ET`
-    );
-
-    // Finding
-    const findingLine = wrapText(r.finding, 88)[0];
-    ops.push(`BT /F2 10 Tf 0.06 0.09 0.16 rg 48 ${curY - 31} Td (${escapePdfText(findingLine)}) Tj ET`);
-
-    // Fix
-    const fixLine = wrapText(`Fix: ${r.fix}`, 94)[0];
-    ops.push(`BT /F1 9 Tf 0.20 0.25 0.33 rg 48 ${curY - 47} Td (${escapePdfText(fixLine)}) Tj ET`);
-
-    // Falsifiability Check
-    const checkLine = wrapText(`Verification Check: ${r.falsifiabilityCheck}`, 94)[0];
-    ops.push(`BT /F2 8.5 Tf 0.05 0.45 0.42 rg 48 ${curY - 63} Td (${escapePdfText(checkLine)}) Tj ET`);
-
-    curY -= cardH + 10;
+function pdfCircleStrokeArc(
+  cx: number,
+  cy: number,
+  r: number,
+  startDeg: number,
+  endDeg: number,
+  steps = 28
+): string {
+  const pts: string[] = [];
+  for (let i = 0; i <= steps; i++) {
+    const deg = startDeg + ((endDeg - startDeg) * i) / steps;
+    const rad = (deg * Math.PI) / 180;
+    const px = (cx + r * Math.cos(rad)).toFixed(2);
+    const py = (cy + r * Math.sin(rad)).toFixed(2);
+    pts.push(i === 0 ? `${px} ${py} m` : `${px} ${py} l`);
   }
+  pts.push('S');
+  return pts.join(' ');
+}
 
-  // Footer
-  ops.push('0.88 0.91 0.94 RG 0.8 w 36 42 m 559 42 l S');
-  ops.push(
-    'BT /F1 8.5 Tf 0.40 0.45 0.53 rg 36 28 Td (Generated by Edgelink Technology SEO Intelligence Platform  |  Powered by 7-Step Signal Crawler & Claude Sonnet 4.6) Tj ET'
+function pdfText(
+  x: number,
+  y: number,
+  text: string,
+  font: 'F1' | 'F2',
+  size: number,
+  rgbHex: string
+): string {
+  return `BT /${font} ${size} Tf ${hexToRgbPdf(rgbHex)} rg ${x.toFixed(1)} ${y.toFixed(1)} Td (${escapePdfText(text)}) Tj ET`;
+}
+
+function buildFullTwoPageVectorPdf(
+  audit: any,
+  breakdown: any,
+  pillarScores: { label: string; value: number }[],
+  donutSegments: { label: string; count: number; color: string }[],
+  totalFindings: number,
+  criticalIssues: any[],
+  importantIssues: any[],
+  quickWins: any[],
+  gscRows: any[],
+  maxClicks: number,
+  serpItems: any[],
+  generatedDate: string
+): Buffer {
+  const p1: string[] = [];
+  const p2: string[] = [];
+  const overallScore = audit.overallScore ?? 64;
+
+  // ==========================================================================
+  // PAGE 1: HEADER, RADIAL SCORE GAUGE, 5 PILLARS, SUMMARY, RADAR + DONUT, ISSUES
+  // ==========================================================================
+
+  // 1. Top Dark Teal Banner (x=34, y=718, w=527, h=90)
+  p1.push(`${hexToRgbPdf('#0f4c45')} rg`);
+  p1.push(pdfRoundedRect(34, 718, 527, 90, 10, 'f'));
+
+  // Brand Pill inside Header
+  p1.push(`${hexToRgbPdf('#115e59')} rg ${hexToRgbPdf('#2dd4bf')} RG 0.8 w`);
+  p1.push(pdfRoundedRect(50, 782, 206, 15, 7, 'B'));
+  p1.push(pdfText(58, 786.5, 'EDGELINK TECHNOLOGY  |  SEO INTELLIGENCE', 'F2', 7.2, '#5eead4'));
+
+  // Client Name & Subtitle
+  p1.push(pdfText(50, 757, audit.client?.name || 'Client SEO Audit', 'F2', 18, '#ffffff'));
+  p1.push(
+    pdfText(
+      50,
+      737,
+      `Comprehensive Technical & Local SEO Audit for ${audit.url}`,
+      'F1',
+      9.5,
+      '#cbd5e1'
+    )
   );
 
-  const streamContent = ops.join('\n');
+  // Right Metadata Box in Header
+  p1.push(`${hexToRgbPdf('#135e56')} rg ${hexToRgbPdf('#2a7c73')} RG 0.7 w`);
+  p1.push(pdfRoundedRect(390, 728, 156, 70, 7, 'B'));
+  p1.push(pdfText(400, 783, `INDUSTRY:  ${audit.client?.businessType || 'Business'}`, 'F2', 7.8, '#e2e8f0'));
+  p1.push(
+    pdfText(
+      400,
+      769,
+      `LOCATION:  ${audit.client?.city || 'Pune'}, ${audit.client?.state || 'MH'}`,
+      'F2',
+      7.8,
+      '#e2e8f0'
+    )
+  );
+  p1.push(pdfText(400, 755, `AUDIT DATE:  ${generatedDate}`, 'F2', 7.8, '#e2e8f0'));
+  p1.push(pdfText(400, 741, `ENGINE:  Claude Sonnet 4.6`, 'F2', 7.8, '#5eead4'));
+
+  // 2. Score Strip Container (x=34, y=616, w=527, h=90)
+  p1.push(`${hexToRgbPdf('#f8fafc')} rg ${hexToRgbPdf('#e2e8f0')} RG 1 w`);
+  p1.push(pdfRoundedRect(34, 616, 527, 90, 10, 'B'));
+
+  // Radial Gauge Card (x=44, y=624, w=78, h=74)
+  p1.push(`${hexToRgbPdf('#ffffff')} rg ${hexToRgbPdf('#e2e8f0')} RG 0.8 w`);
+  p1.push(pdfRoundedRect(44, 624, 78, 74, 8, 'B'));
+
+  // Draw Radial Gauge Circle Track & Progress Arc
+  const gCx = 83;
+  const gCy = 661;
+  const gR = 27;
+  p1.push(`${hexToRgbPdf('#e2e8f0')} RG 6.5 w 1 J`);
+  p1.push(pdfCircleStrokeArc(gCx, gCy, gR, 0, 360, 36));
+  const gaugeSweep = (Math.max(5, Math.min(100, overallScore)) / 100) * 360;
+  const gColor = overallScore >= 75 ? '#10b981' : overallScore >= 55 ? '#0d9488' : '#f59e0b';
+  p1.push(`${hexToRgbPdf(gColor)} RG 6.5 w 1 J`);
+  p1.push(pdfCircleStrokeArc(gCx, gCy, gR, 90, 90 - gaugeSweep, 32));
+  p1.push(pdfText(gCx - 11, gCy - 2, `${overallScore}`, 'F2', 17, '#0f172a'));
+  p1.push(pdfText(gCx - 17, gCy - 12, 'SEO SCORE', 'F2', 5.8, '#0f766e'));
+
+  // 5 Pillar Cards
+  pillarScores.forEach((p, idx) => {
+    const px = 132 + idx * 84;
+    const py = 624;
+    const pw = 78;
+    const ph = 74;
+    p1.push(`${hexToRgbPdf('#ffffff')} rg ${hexToRgbPdf('#e2e8f0')} RG 0.8 w`);
+    p1.push(pdfRoundedRect(px, py, pw, ph, 8, 'B'));
+
+    const statusLabel = p.value >= 75 ? 'GOOD' : p.value >= 60 ? 'FAIR' : 'WORK';
+    const badgeBg = p.value >= 75 ? '#d1fae5' : p.value >= 60 ? '#ccfbf1' : '#fef3c7';
+    const badgeFg = p.value >= 75 ? '#065f46' : p.value >= 60 ? '#115e59' : '#92400e';
+    const barCol = p.value >= 75 ? '#10b981' : p.value >= 60 ? '#0d9488' : '#f59e0b';
+
+    p1.push(pdfText(px + 8, py + 50, `${p.value}%`, 'F2', 13, '#0f172a'));
+
+    // Mini Status Pill
+    p1.push(`${hexToRgbPdf(badgeBg)} rg`);
+    p1.push(pdfRoundedRect(px + 46, py + 49, 25, 11, 4, 'f'));
+    p1.push(pdfText(px + 49, py + 52, statusLabel, 'F2', 5.8, badgeFg));
+
+    // Progress Bar Track & Fill
+    p1.push(`${hexToRgbPdf('#e2e8f0')} rg`);
+    p1.push(pdfRoundedRect(px + 8, py + 34, 62, 5, 2.5, 'f'));
+    const fillW = Math.max(6, Math.round((p.value / 100) * 62));
+    p1.push(`${hexToRgbPdf(barCol)} rg`);
+    p1.push(pdfRoundedRect(px + 8, py + 34, fillW, 5, 2.5, 'f'));
+
+    p1.push(pdfText(px + 8, py + 15, p.label.toUpperCase(), 'F2', 7.2, '#475569'));
+  });
+
+  // 3. Executive Intelligence Summary Card (x=34, y=542, w=527, h=62)
+  p1.push(`${hexToRgbPdf('#ecfdf5')} rg ${hexToRgbPdf('#a7f3d0')} RG 0.8 w`);
+  p1.push(pdfRoundedRect(34, 542, 527, 62, 8, 'B'));
+  p1.push(`${hexToRgbPdf('#10b981')} rg`);
+  p1.push(pdfRoundedRect(34, 542, 5, 62, 2, 'f'));
+  p1.push(pdfText(48, 589, 'EXECUTIVE INTELLIGENCE SUMMARY', 'F2', 8.5, '#065f46'));
+
+  const execLines = wrapText(audit.executiveSummary || 'Audit completed.', 96).slice(0, 3);
+  execLines.forEach((l, i) => {
+    p1.push(pdfText(48, 575 - i * 11.5, l, 'F1', 8.8, '#064e3b'));
+  });
+
+  // 4. Visual Analytics Row: Left = 5-Pillar Radar Chart, Right = Severity Donut Chart (y=342, h=188)
+  // Left Card: Radar Chart (x=34, y=342, w=257, h=188)
+  p1.push(`${hexToRgbPdf('#ffffff')} rg ${hexToRgbPdf('#e2e8f0')} RG 0.9 w`);
+  p1.push(pdfRoundedRect(34, 342, 257, 188, 10, 'B'));
+  p1.push(pdfText(48, 512, '5-Pillar Dimensional Balance', 'F2', 10.5, '#0f172a'));
+  p1.push(pdfText(48, 500, 'Multi-axis performance across core ranking factors', 'F1', 7.8, '#64748b'));
+
+  const rCx = 162;
+  const rCy = 418;
+  const rMax = 52;
+  const getRadarPt = (idx: number, pct: number) => {
+    // PDF y-axis goes UP, so top vertex is +90 deg (Math.PI / 2) and clockwise is minus angle
+    const angle = Math.PI / 2 - (Math.PI * 2 * idx) / pillarScores.length;
+    const rad = (pct / 100) * rMax;
+    return {
+      x: rCx + rad * Math.cos(angle),
+      y: rCy + rad * Math.sin(angle),
+    };
+  };
+
+  // Concentric pentagons
+  [25, 50, 75, 100].forEach((lvl) => {
+    p1.push(`${hexToRgbPdf('#cbd5e1')} RG 0.6 w`);
+    const pts = pillarScores.map((_, i) => getRadarPt(i, lvl));
+    p1.push(
+      pts
+        .map((pt, i) => `${pt.x.toFixed(1)} ${pt.y.toFixed(1)} ${i === 0 ? 'm' : 'l'}`)
+        .join(' ') + ' s'
+    );
+  });
+
+  // Axis spokes
+  pillarScores.forEach((_, i) => {
+    const end = getRadarPt(i, 100);
+    p1.push(`${hexToRgbPdf('#cbd5e1')} RG 0.6 w ${rCx} ${rCy} m ${end.x.toFixed(1)} ${end.y.toFixed(1)} l S`);
+  });
+
+  // Data Polygon Fill + Stroke
+  const dataPts = pillarScores.map((s, i) => getRadarPt(i, s.value));
+  p1.push(`${hexToRgbPdf('#ccfbf1')} rg ${hexToRgbPdf('#0f766e')} RG 1.8 w`);
+  p1.push(
+    dataPts
+      .map((pt, i) => `${pt.x.toFixed(1)} ${pt.y.toFixed(1)} ${i === 0 ? 'm' : 'l'}`)
+      .join(' ') + ' b'
+  );
+
+  // Vertices & Labels around Radar
+  pillarScores.forEach((s, i) => {
+    const pt = getRadarPt(i, s.value);
+    p1.push(`${hexToRgbPdf('#0d9488')} rg`);
+    p1.push(pdfRoundedRect(pt.x - 2.5, pt.y - 2.5, 5, 5, 2.5, 'f'));
+
+    const lblPt = getRadarPt(i, 125);
+    const labelStr = `${s.label} (${s.value}%)`;
+    const offsetX =
+      lblPt.x > rCx + 10 ? 0 : lblPt.x < rCx - 10 ? -labelStr.length * 3.8 : -labelStr.length * 1.9;
+    p1.push(pdfText(lblPt.x + offsetX, lblPt.y - 3, labelStr, 'F2', 7.3, '#1e293b'));
+  });
+
+  // Right Card: Donut Chart & Legend (x=304, y=342, w=257, h=188)
+  p1.push(`${hexToRgbPdf('#ffffff')} rg ${hexToRgbPdf('#e2e8f0')} RG 0.9 w`);
+  p1.push(pdfRoundedRect(304, 342, 257, 188, 10, 'B'));
+  p1.push(pdfText(318, 512, 'Audit Findings & Severity Breakdown', 'F2', 10.5, '#0f172a'));
+  p1.push(pdfText(318, 500, 'Distribution of identified technical & content opportunities', 'F1', 7.8, '#64748b'));
+
+  const dCx = 362;
+  const dCy = 418;
+  const dR = 38;
+  p1.push(`0 J`); // Butt cap for clean donut segments
+  let curAngle = 90;
+  donutSegments.forEach((seg) => {
+    const sweep = (seg.count / (totalFindings || 1)) * 360;
+    const nextAngle = curAngle - sweep;
+    p1.push(`${hexToRgbPdf(seg.color)} RG 14 w`);
+    p1.push(pdfCircleStrokeArc(dCx, dCy, dR, curAngle, nextAngle, 20));
+    curAngle = nextAngle;
+  });
+  p1.push(pdfText(dCx - 9, dCy + 1, `${totalFindings}`, 'F2', 15, '#0f172a'));
+  p1.push(pdfText(dCx - 20, dCy - 9, 'TOTAL ITEMS', 'F2', 5.8, '#64748b'));
+
+  // Donut Legend Items
+  donutSegments.forEach((seg, idx) => {
+    const ly = 456 - idx * 28;
+    const lx = 416;
+    const pct = Math.round((seg.count / (totalFindings || 1)) * 100);
+    p1.push(`${hexToRgbPdf('#f8fafc')} rg ${hexToRgbPdf('#f1f5f9')} RG 0.6 w`);
+    p1.push(pdfRoundedRect(lx, ly, 134, 22, 5, 'B'));
+    p1.push(`${hexToRgbPdf(seg.color)} rg`);
+    p1.push(pdfRoundedRect(lx + 6, ly + 7, 7, 7, 3.5, 'f'));
+    p1.push(pdfText(lx + 17, ly + 8, seg.label, 'F1', 7.2, '#334155'));
+    p1.push(pdfText(lx + 100, ly + 8, `${seg.count} (${pct}%)`, 'F2', 7.2, '#0f172a'));
+  });
+
+  // 5. Three-Column Issues Breakdown (y=124, h=206)
+  const colW = 169;
+  const issueCols = [
+    {
+      title: `CRITICAL BLOCKERS (${criticalIssues.length})`,
+      items: criticalIssues,
+      bg: '#fef2f2',
+      border: '#fecaca',
+      titleCol: '#b91c1c',
+      bullet: '-',
+    },
+    {
+      title: `IMPORTANT ISSUES (${importantIssues.length})`,
+      items: importantIssues,
+      bg: '#fffbeb',
+      border: '#fde68a',
+      titleCol: '#b45309',
+      bullet: '-',
+    },
+    {
+      title: `QUICK WINS <= 2H (${quickWins.length})`,
+      items: quickWins,
+      bg: '#f0fdfa',
+      border: '#99f6e4',
+      titleCol: '#0f766e',
+      bullet: '+',
+    },
+  ];
+
+  issueCols.forEach((col, cIdx) => {
+    const cx = 34 + cIdx * (colW + 10);
+    const cy = 114;
+    const ch = 216;
+    p1.push(`${hexToRgbPdf(col.bg)} rg ${hexToRgbPdf(col.border)} RG 0.9 w`);
+    p1.push(pdfRoundedRect(cx, cy, colW, ch, 9, 'B'));
+    p1.push(pdfText(cx + 10, cy + ch - 18, col.title, 'F2', 8.2, col.titleCol));
+
+    let itemY = cy + ch - 30;
+    col.items.slice(0, 4).forEach((item: any) => {
+      const wrapped = wrapText(`${col.bullet} ${item.title}`, 31).slice(0, 3);
+      const boxH = wrapped.length * 10 + 8;
+      if (itemY - boxH < cy + 6) return;
+      p1.push(`${hexToRgbPdf('#ffffff')} rg ${hexToRgbPdf(col.border)} RG 0.5 w`);
+      p1.push(pdfRoundedRect(cx + 8, itemY - boxH, colW - 16, boxH, 5, 'B'));
+      wrapped.forEach((line, lIdx) => {
+        p1.push(pdfText(cx + 13, itemY - 11 - lIdx * 9.5, line, 'F1', 7.3, '#1e293b'));
+      });
+      itemY -= boxH + 5;
+    });
+  });
+
+  // Page 1 Footer
+  p1.push(`${hexToRgbPdf('#e2e8f0')} RG 0.7 w 34 42 m 561 42 l S`);
+  p1.push(pdfText(34, 29, 'EDGELINK TECHNOLOGY  |  Confidential Client SEO Audit Report', 'F2', 7.5, '#64748b'));
+  p1.push(pdfText(485, 29, 'Page 1 of 2', 'F2', 7.5, '#0f766e'));
+
+  // ==========================================================================
+  // PAGE 2: GSC KEYWORD BARS, SERP BENCHMARK & PRIORITIZED REMEDIATION ROADMAP
+  // ==========================================================================
+
+  // 1. Top Row: GSC Keyword Performance (Left) + DataForSEO SERP Benchmark (Right) (y=642, h=166)
+  p2.push(`${hexToRgbPdf('#ffffff')} rg ${hexToRgbPdf('#e2e8f0')} RG 0.9 w`);
+  p2.push(pdfRoundedRect(34, 642, 306, 166, 10, 'B'));
+  p2.push(pdfText(48, 790, 'Google Search Console Keyword Performance', 'F2', 10.5, '#0f172a'));
+  p2.push(pdfText(48, 778, 'Top organic search queries, clicks, CTR & average position', 'F1', 7.8, '#64748b'));
+
+  gscRows.slice(0, 4).forEach((row, idx) => {
+    const ry = 754 - idx * 31;
+    p2.push(pdfText(48, ry, row.query, 'F2', 8, '#1e293b'));
+    const statsText = `Pos #${row.position} | CTR ${((row.ctr || 0.035) * 100).toFixed(1)}% | ${row.clicks} clicks`;
+    p2.push(pdfText(200, ry, statsText, 'F1', 7.4, '#475569'));
+
+    // Bar track & fill
+    p2.push(`${hexToRgbPdf('#f1f5f9')} rg`);
+    p2.push(pdfRoundedRect(48, ry - 10, 278, 6, 3, 'f'));
+    const barW = Math.max(18, Math.round(((row.clicks || 10) / maxClicks) * 278));
+    p2.push(`${hexToRgbPdf('#0d9488')} rg`);
+    p2.push(pdfRoundedRect(48, ry - 10, barW, 6, 3, 'f'));
+  });
+
+  // Right Card: SERP Benchmark (x=352, y=642, w=209, h=166)
+  p2.push(`${hexToRgbPdf('#ffffff')} rg ${hexToRgbPdf('#e2e8f0')} RG 0.9 w`);
+  p2.push(pdfRoundedRect(352, 642, 209, 166, 10, 'B'));
+  p2.push(pdfText(366, 790, 'DataForSEO SERP Benchmark', 'F2', 10.5, '#0f172a'));
+  p2.push(pdfText(366, 778, 'Organic position vs. regional competitors', 'F1', 7.8, '#64748b'));
+
+  serpItems.slice(0, 3).forEach((item, idx) => {
+    const isClient = idx === 0;
+    const sy = 732 - idx * 40;
+    p2.push(
+      `${hexToRgbPdf(isClient ? '#f0fdfa' : '#f8fafc')} rg ${hexToRgbPdf(
+        isClient ? '#5eead4' : '#e2e8f0'
+      )} RG 0.8 w`
+    );
+    p2.push(pdfRoundedRect(364, sy, 185, 32, 6, 'B'));
+    const domText = (isClient ? '* ' : '') + (item.domain || '').slice(0, 24);
+    p2.push(pdfText(372, sy + 18, domText, 'F2', 8, '#0f172a'));
+    p2.push(
+      pdfText(
+        506,
+        sy + 18,
+        `Rank #${item.rank_absolute}`,
+        'F2',
+        8,
+        isClient ? '#0f766e' : '#475569'
+      )
+    );
+
+    p2.push(`${hexToRgbPdf('#e2e8f0')} rg`);
+    p2.push(pdfRoundedRect(372, sy + 7, 169, 4.5, 2, 'f'));
+    const sBarW = Math.max(30, Math.round(((100 - (item.rank_absolute || 4) * 6) / 100) * 169));
+    p2.push(`${hexToRgbPdf(isClient ? '#0d9488' : '#94a3b8')} rg`);
+    p2.push(pdfRoundedRect(372, sy + 7, sBarW, 4.5, 2, 'f'));
+  });
+
+  // 2. Section Heading: Prioritized Remediation Roadmap
+  p2.push(pdfText(34, 614, 'PRIORITIZED REMEDIATION ROADMAP', 'F2', 11.5, '#0f172a'));
+  p2.push(pdfText(415, 614, 'Verified with Falsifiability Metrics', 'F2', 8.2, '#0f766e'));
+  p2.push(`${hexToRgbPdf('#0f172a')} RG 1.5 w 34 606 m 561 606 l S`);
+
+  // 3. Remediation Cards (4 Cards with Two Subboxes: Fix + Falsifiability Check)
+  let recY = 594;
+  (audit.recommendations || []).slice(0, 4).forEach((r: any) => {
+    const cardH = 122;
+    const bottomY = recY - cardH;
+
+    // Outer Card
+    p2.push(`${hexToRgbPdf('#ffffff')} rg ${hexToRgbPdf('#cbd5e1')} RG 0.9 w`);
+    p2.push(pdfRoundedRect(34, bottomY, 527, cardH, 9, 'B'));
+
+    // Priority Pill
+    const pBg =
+      r.priority === 'CRITICAL'
+        ? '#fee2e2'
+        : r.priority === 'HIGH'
+        ? '#ffedd5'
+        : '#fef3c7';
+    const pFg =
+      r.priority === 'CRITICAL'
+        ? '#991b1b'
+        : r.priority === 'HIGH'
+        ? '#9a3412'
+        : '#92400e';
+    p2.push(`${hexToRgbPdf(pBg)} rg`);
+    p2.push(pdfRoundedRect(46, recY - 22, 54, 14, 7, 'f'));
+    p2.push(pdfText(53, recY - 17.5, r.priority, 'F2', 7.2, pFg));
+
+    // Category Pill
+    p2.push(`${hexToRgbPdf('#f1f5f9')} rg`);
+    p2.push(pdfRoundedRect(106, recY - 22, 56, 14, 5, 'f'));
+    p2.push(pdfText(113, recY - 17.5, String(r.category).toUpperCase(), 'F2', 7.2, '#334155'));
+
+    // Right Impact & Effort Meta
+    p2.push(
+      pdfText(
+        336,
+        recY - 17,
+        `Estimated Impact: ${r.estimatedImpact || 'High'}  |  Implementation Effort: ${r.effort}`,
+        'F2',
+        7.5,
+        '#64748b'
+      )
+    );
+
+    // Finding Headline
+    const findingText = wrapText(r.finding, 92)[0];
+    p2.push(pdfText(46, recY - 38, findingText, 'F2', 9.5, '#0f172a'));
+
+    // Subbox 1: Recommended Engineering Fix (Left)
+    const subY = bottomY + 10;
+    const subH = 62;
+    p2.push(`${hexToRgbPdf('#f8fafc')} rg ${hexToRgbPdf('#e2e8f0')} RG 0.7 w`);
+    p2.push(pdfRoundedRect(46, subY, 260, subH, 6, 'B'));
+    p2.push(pdfText(54, subY + subH - 13, 'RECOMMENDED ENGINEERING FIX', 'F2', 6.8, '#475569'));
+    wrapText(r.fix, 48)
+      .slice(0, 3)
+      .forEach((line, lIdx) => {
+        p2.push(pdfText(54, subY + subH - 26 - lIdx * 10.5, line, 'F1', 7.8, '#1e293b'));
+      });
+
+    // Subbox 2: Falsifiability & Verification Check (Right)
+    p2.push(`${hexToRgbPdf('#f0fdfa')} rg ${hexToRgbPdf('#99f6e4')} RG 0.7 w`);
+    p2.push(pdfRoundedRect(314, subY, 235, subH, 6, 'B'));
+    p2.push(
+      pdfText(
+        322,
+        subY + subH - 13,
+        'FALSIFIABILITY & VERIFICATION CHECK',
+        'F2',
+        6.8,
+        '#0f766e'
+      )
+    );
+    wrapText(r.falsifiabilityCheck, 43)
+      .slice(0, 3)
+      .forEach((line, lIdx) => {
+        p2.push(pdfText(322, subY + subH - 26 - lIdx * 10.5, line, 'F1', 7.8, '#115e59'));
+      });
+
+    recY -= cardH + 12;
+  });
+
+  // Page 2 Footer
+  p2.push(`${hexToRgbPdf('#e2e8f0')} RG 0.7 w 34 42 m 561 42 l S`);
+  p2.push(
+    pdfText(
+      34,
+      29,
+      'EDGELINK TECHNOLOGY  |  Confidential Client SEO Audit Report',
+      'F2',
+      7.5,
+      '#64748b'
+    )
+  );
+  p2.push(
+    pdfText(
+      290,
+      29,
+      `Generated on ${generatedDate}  |  Powered by 7-Step Signal Crawler & Claude Sonnet 4.6`,
+      'F1',
+      7.5,
+      '#64748b'
+    )
+  );
+
+  const stream1 = p1.join('\n');
+  const stream2 = p2.join('\n');
 
   const objects = [
     '1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n',
-    '2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n',
-    '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj\n',
-    `4 0 obj\n<< /Length ${Buffer.byteLength(streamContent, 'utf8')} >>\nstream\n${streamContent}\nendstream\nendobj\n`,
-    '5 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n',
-    '6 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj\n',
+    '2 0 obj\n<< /Type /Pages /Kids [3 0 R 4 0 R] /Count 2 >>\nendobj\n',
+    '3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 5 0 R /Resources << /Font << /F1 7 0 R /F2 8 0 R >> >> >>\nendobj\n',
+    '4 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 6 0 R /Resources << /Font << /F1 7 0 R /F2 8 0 R >> >> >>\nendobj\n',
+    `5 0 obj\n<< /Length ${Buffer.byteLength(stream1, 'utf8')} >>\nstream\n${stream1}\nendstream\nendobj\n`,
+    `6 0 obj\n<< /Length ${Buffer.byteLength(stream2, 'utf8')} >>\nstream\n${stream2}\nendstream\nendobj\n`,
+    '7 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\nendobj\n',
+    '8 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>\nendobj\n',
   ];
 
   let pdf = '%PDF-1.4\n';

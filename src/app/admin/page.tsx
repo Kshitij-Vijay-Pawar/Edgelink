@@ -606,7 +606,7 @@ export default function AdminPortal() {
                 </span>
                 <div className="flex items-center gap-3">
                   <a
-                    href={`/api/reports/${activeAudit.id}`}
+                    href={`/api/reports/${activeAudit.id}?regenerate=true`}
                     download
                     className="bg-white hover:bg-slate-100 text-teal-950 px-4 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5"
                   >
@@ -686,7 +686,7 @@ export default function AdminPortal() {
                     <td className="px-6 py-4">
                       <div className="flex items-center justify-end gap-3">
                         <a
-                          href={`/api/reports/${a.id}`}
+                          href={`/api/reports/${a.id}?regenerate=true`}
                           download
                           className="text-slate-600 hover:text-teal-700 font-medium text-xs flex items-center gap-1 border border-slate-200 px-2.5 py-1 rounded-md hover:border-teal-300 transition"
                         >
